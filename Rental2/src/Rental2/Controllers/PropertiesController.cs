@@ -20,7 +20,8 @@ namespace Rental2.Controllers
         // GET: Properties
         public IActionResult Index()
         {
-            return View(_context.Properties.ToList());
+            var properties = _context.Properties.Include(p => p.PastRentals).ToList();
+            return View(properties);
         }
 
         // GET: Properties/Details/5

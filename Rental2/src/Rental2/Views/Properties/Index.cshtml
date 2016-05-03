@@ -20,21 +20,51 @@
         </th>
         <th></th>
     </tr>
-    
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Rent)
-        </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-        </td>
-    </tr>
 
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rent)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+    }
 </table>
+<div id="map"></div>
+<script>
+    var map = new GMaps({
+        div: '#map',
+        lat: 43.038,
+        lng: -87.9065
+    });
+</script>
+@foreach (var item in Model)
+{
+    <script>
+        GMaps.geocode({
+            address: "@item.Address",
+            callback: function (results, status) {
+                if (status == 'OK') {
+                    var latlng = results[0].geometry.location;
+                    map.setCenter(latlng.lat(), latlng.lng());
+                    map.addMarker({
+                        lat: latlng.lat(),
+                        lng: latlng.lng(),
+                        title: "@item.Address",
+                        infoWindow: {
+                            content: '<p> Rent: @item.Rent <br> Current Tenant: @item.PastRentals.ElementAt(0).CurrentTenant <br> Date Lease Ends: @item.PastRentals.ElementAt(0).EndDate </p>
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+}
