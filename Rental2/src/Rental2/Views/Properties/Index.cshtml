@@ -24,7 +24,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td id="address">
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
@@ -51,16 +51,15 @@
     <script>
         GMaps.geocode({
             address: "@item.Address",
-            callback: function (results, status) {
+            callback: function(results, status) {
                 if (status == 'OK') {
                     var latlng = results[0].geometry.location;
-                    map.setCenter(latlng.lat(), latlng.lng());
                     map.addMarker({
                         lat: latlng.lat(),
                         lng: latlng.lng(),
-                        title: "@item.Address",
+                        title: '@item.Address',
                         infoWindow: {
-                            content: '<p> Rent: @item.Rent <br> Current Tenant: @item.PastRentals.ElementAt(0).CurrentTenant <br> Date Lease Ends: @item.PastRentals.ElementAt(0).EndDate </p>
+                            content: '<p> Rent: @item.Rent <br> Current Tenant: @item.PastRentals.ElementAt(0).CurrentTenant <br> Date Lease Ends: @item.PastRentals.ElementAt(0).EndDate </p>'
                         }
                     });
                 }
