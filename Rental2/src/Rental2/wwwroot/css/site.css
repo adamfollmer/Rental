@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #e4e4e4
 }
 
 /* Wrapping element */
@@ -31,4 +32,19 @@ textarea {
     .carousel-caption {
         z-index: 10 !important;
     }
+}
+
+.navbar {
+    background-image: url("../images/Skyline.png");
+    background-position: center;
+    background-color: #e4e4e4;
+    background-repeat: no-repeat;
+    position: relative;
+    min-height: 400px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+}
+
+.navbar-inverse .navbar-nav > li > a  {
+    color: white;
 }
