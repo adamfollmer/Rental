@@ -1,0 +1,64 @@
+@model IEnumerable<Rental2.Models.YearlyRental>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name or ID: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Rental ID", "Index", new { sortOrder = ViewBag.NameSortParm})
+        </th>
+        <th>
+            @Html.ActionLink("Current Tenant", "Index", new { sortOrder = ViewBag.DateSortParm })
+        </th>
+        <th>
+            Property
+        </th>
+        <th>
+            Move-in Date
+        </th>
+        <th>
+            Move-out Date
+        </th>
+    </tr>
+    
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CurrentTenant.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Property.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+        </td>
+    </tr>
+}
+</table>

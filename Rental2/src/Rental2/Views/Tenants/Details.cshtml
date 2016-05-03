@@ -1,0 +1,59 @@
+@model Rental2.Models.Tenant
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>for the following tenant</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ForwardingAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ForwardingAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.RentalHistory)
+        </dt>
+        <dd>
+            @if (Model.RentalHistory == null)
+            {
+                <p>No rental history</p>
+            }
+            else
+            {
+                @foreach (YearlyRental rental in Model.RentalHistory)
+                {
+                    @Html.DisplayFor(modelItem => rental.ID)
+                }
+            }
+
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

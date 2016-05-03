@@ -1,0 +1,48 @@
+@model Rental2.Models.Property
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Property</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Rent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Rent)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PastRentals)
+        </dt>
+        <dd>
+        <dd>
+            @if (Model.PastRentals == null)
+            {
+                <p>No rental history</p>
+            }
+            else
+            {
+                @foreach (YearlyRental rental in Model.PastRentals)
+                {
+                    @Html.DisplayFor(modelItem => rental.ID)
+                }
+            }
+
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>
