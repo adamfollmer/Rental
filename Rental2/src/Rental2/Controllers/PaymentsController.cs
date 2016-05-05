@@ -60,7 +60,7 @@ namespace Rental2.Controllers
                 .OrderBy(rental => rental.TenantID)
                 .Select(yearlyRentals => new SelectListItem
                 {
-                    Text = string.Format("{0}: {1}", yearlyRentals.ID, yearlyRentals.CurrentTenant.Name),
+                    Text = string.Format("{0}: {1}, {2}", yearlyRentals.ID, yearlyRentals.CurrentTenant.LastName, yearlyRentals.CurrentTenant.FirstName),
                     Value = yearlyRentals.ID.ToString(),
                     Selected = yearlyRentals.ID == selected
                 });

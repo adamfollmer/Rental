@@ -27,22 +27,22 @@ namespace Rental2.Controllers
                 select s;
             if (!string.IsNullOrEmpty(searchString))
             {
-                rentalContext = rentalContext.Where(s => s.CurrentTenant.Name.Contains(searchString) 
+                rentalContext = rentalContext.Where(s => s.CurrentTenant.LastName.Contains(searchString) 
                 || s.ID.ToString().Contains(searchString));
             }
             switch (sortOrder)
             {
                 case "id_desc":
-                    rentalContext = rentalContext.OrderByDescending(s => s.CurrentTenant.Name);
-                    break;
-                case "tenant":
-                    rentalContext = rentalContext.OrderBy(s => s.ID);
-                    break;
-                case "tenant_desc":
                     rentalContext = rentalContext.OrderByDescending(s => s.ID);
                     break;
+                case "tenant":
+                    rentalContext = rentalContext.OrderBy(s => s.CurrentTenant.LastName);
+                    break;
+                case "tenant_desc":
+                    rentalContext =  rentalContext.OrderByDescending(s => s.CurrentTenant.LastName);
+                    break;
                 default:
-                    rentalContext = rentalContext.OrderBy(s => s.CurrentTenant.Name);
+                    rentalContext = rentalContext.OrderBy(s => s.ID);
                     break;
             }
             return View(rentalContext.ToList());
@@ -100,7 +100,7 @@ namespace Rental2.Controllers
                 .OrderBy(tenant => tenant.Email)
                 .Select(tenant => new SelectListItem
                 {
-                    Text = string.Format("{0}", tenant.Name),
+                    Text = string.Format("{0}", tenant.LastName),
                     Value = tenant.ID.ToString(),
                     Selected = tenant.ID == selected
                 });

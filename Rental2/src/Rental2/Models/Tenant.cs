@@ -10,7 +10,9 @@ namespace Rental2.Models
     {
         public int ID { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
         [Required]
         [Display(Name = "Forwarding Address")]
         public string ForwardingAddress { get; set; }
@@ -19,6 +21,8 @@ namespace Rental2.Models
         [DataType(DataType.PhoneNumber, ErrorMessage = "Phone number is not valid")]
         [Required]
         public string Phone { get; set; }
+        [DataType(DataType.MultilineText)]
+        public string AdditionalTenants { get; set; }
 
         public virtual ICollection<YearlyRental> RentalHistory { get; set; }
     }
