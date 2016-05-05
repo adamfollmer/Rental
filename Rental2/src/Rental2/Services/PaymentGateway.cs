@@ -26,7 +26,8 @@ namespace Rental2.Services
                     Number = model.CreditCardNumber,
                     CVV = model.Cvv,
                     ExpirationMonth = model.Month,
-                    ExpirationYear = model.Year
+                    ExpirationYear = model.Year,
+                    CardholderName = model.Name      
                 },
                 Options = new TransactionOptionsRequest()
                 {

@@ -33,7 +33,7 @@ namespace Rental2.Migrations.Rental
 
                     b.Property<DateTime>("DueDate");
 
-                    b.Property<int>("PaymentAmount");
+                    b.Property<decimal>("PaymentAmount");
 
                     b.Property<int>("YearlyRentalID");
 

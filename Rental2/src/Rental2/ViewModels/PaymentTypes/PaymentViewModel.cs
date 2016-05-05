@@ -10,11 +10,13 @@ namespace Rental2.ViewModels
     public class PaymentViewModel
     {
         [Required]
-        [Display(Name = "First Name")]
-        public string FirstName { get; set; }
+        [Display(Name = "Name On Card")]
+        public string Name { get; set; }
         [Required]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+        [Display(Name = "Postal Code")]
+        [StringLength(10, MinimumLength = 5)]
+        [DataType(DataType.PostalCode)]
+        public string PostalCode { get; set; }
         public decimal TotalPayment { get; set; }
         [Required]
         public string CreditCardNumber { get; set; }

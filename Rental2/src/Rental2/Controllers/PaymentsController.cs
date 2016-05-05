@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using Braintree;
 using Rental2.ViewModels;
 using System.Threading.Tasks;
+using System;
+using Rental2.Services;
 
 namespace Rental2.Controllers
 {
@@ -14,27 +16,28 @@ namespace Rental2.Controllers
     {
         private RentalContext _context;
         
-        public ActionResult MakePayment()
-        {
-            return View();
 
-        }
-        //[HttpPost]
-        //public async Task<ActionResult> MakePayment(PaymentViewModel model)
-        //{
-        //    await ;
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(model);
-        //    }
-        //    return View(model);
-        //}
 
         public PaymentsController(RentalContext context)
         {
             _context = context;    
         }
+        public ActionResult RentPayment()
+        {
+            return View();
 
+        }
+        [HttpPost]
+        public async Task<ActionResult> RentPayment(PaymentViewModel model)
+        {
+            
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var payment = new Payment();
+            return View(model);
+        }
         // GET: Payments
         public IActionResult Index()
         {
@@ -88,13 +91,24 @@ namespace Rental2.Controllers
         // POST: Payments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Payment payment)
+        public IActionResult Create(PaymentViewModel payment)
         {
-            if (ModelState.IsValid)
+            var paidRecord = new Payment()
             {
-                _context.Payments.Add(payment);
+                DateReceived = DateTime.Now,
+                PaymentAmount = payment.TotalPayment, 
+            };
+            var gateway = new PaymentGateway();
+            var result = gateway.ProcessPayment(payment);
+            if (result.Succeeded)
+            {
+
+            if (ModelState.IsValid)
+            {   
+                _context.Payments.Add(paidRecord);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
+            }
             }
 
             //ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "Tenant", payment.TenantID);

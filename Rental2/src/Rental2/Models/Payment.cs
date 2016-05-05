@@ -11,7 +11,7 @@ namespace Rental2.Models
         public int ID { get; set; }
         [DataType(DataType.Currency)]
         [Display(Name = "Payment Amount")]
-        public int PaymentAmount { get; set; }
+        public decimal PaymentAmount { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Payment Due Date")]
         public DateTime DueDate { get; set; }
@@ -21,6 +21,7 @@ namespace Rental2.Models
 
         public int YearlyRentalID { get; set; }
         public virtual YearlyRental YearlyRental { get; set; }
+
 
     }
 }

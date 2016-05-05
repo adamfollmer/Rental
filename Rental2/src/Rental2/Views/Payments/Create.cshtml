@@ -1,50 +1,45 @@
-@model Rental2.Models.Payment
+@model Rental2.ViewModels.PaymentViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Rent Payment";
 }
-
-<h2>Create</h2>
-<form asp-action="Create">
-    <div class="form-horizontal">
-        <h4>Payment</h4>
-        <hr />
-        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <label asp-for="DateReceived" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="DateReceived" class="form-control" />
-                <span asp-validation-for="DateReceived" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="DueDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="DueDate" class="form-control" />
-                <span asp-validation-for="DueDate" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="PaymentAmount" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="PaymentAmount" class="form-control" />
-                <span asp-validation-for="PaymentAmount" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="YearlyRentalID" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="YearlyRentalID" asp-items="@ViewBag.Items"></select>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-</form>
-
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h2>Rent Payment</h2>
+    <fieldset class="payment-form">
+        <legend>Payment Information</legend>
+        <p>
+            <div class="editor-label">@Html.LabelFor(m => m.Name)</div>
+            <div class="editor-field">@Html.EditorFor(m => m.Name)</div>
+        </p>
+        <p>
+            <div class="editor-label">@Html.LabelFor(m => m.PostalCode)</div>
+            <div class="editor-field">@Html.EditorFor(m => m.PostalCode)</div>
+        </p>
+        <p>
+            <div class="editor-label">@Html.LabelFor(m => m.TotalPayment)</div>
+            <div class="editor-field">@Html.EditorFor(m => m.TotalPayment)</div>
+        </p>        
+        <p>
+            <div class="editor-label">@Html.LabelFor(m => m.CreditCardNumber)</div>
+            <div class="editor-field">@Html.EditorFor(m => m.CreditCardNumber)</div>
+        </p>
+        <p>
+            <div class="editor-label">@Html.LabelFor(m => m.Cvv)</div>
+            <div class="editor-field">@Html.EditorFor(m => m.Cvv)</div>
+        </p>
+        <p>
+            <div class="editor-label">@Html.LabelFor(m => m.Month)</div>
+            <div class="editor-field">@Html.EditorFor(m => m.Month)</div>
+        </p>
+        <p>
+            <div class="editor-label">@Html.LabelFor(m => m.Year)</div>
+            <div class="editor-field">@Html.EditorFor(m => m.Year)</div>
+        </p>
+    </fieldset>
+    <input class="submit-button" type="submit"/>
+}
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
@@ -53,4 +48,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        var clientToken = "eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiI0YjQwM2Q3YzcyOGM5NzY2MDBhZDhmYmI4OTI4NjI3ZjM3OGY4OTA4MGRmZWQ1ZGEwZWQ5YzU3ZDZiMDI2ZWUyfGNyZWF0ZWRfYXQ9MjAxNi0wNS0wNVQxODo1MzoxMS43MjAxOTY1MDErMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJjaGFsbGVuZ2VzIjpbXSwiZW52aXJvbm1lbnQiOiJzYW5kYm94IiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzLzM0OHBrOWNnZjNiZ3l3MmIvY2xpZW50X2FwaSIsImFzc2V0c1VybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXV0aFVybCI6Imh0dHBzOi8vYXV0aC52ZW5tby5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tLzM0OHBrOWNnZjNiZ3l3MmIifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJjb2luYmFzZUVuYWJsZWQiOmZhbHNlLCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0=";
+        braintree.setup(clientToken, "dropin", { container: "payment-form" });
+    </script>
 }
