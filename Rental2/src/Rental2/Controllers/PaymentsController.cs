@@ -4,12 +4,31 @@ using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using Rental2.Models;
 using System.Collections.Generic;
+using Braintree;
+using Rental2.ViewModels;
+using System.Threading.Tasks;
 
 namespace Rental2.Controllers
 {
     public class PaymentsController : Controller
     {
         private RentalContext _context;
+        
+        public ActionResult MakePayment()
+        {
+            return View();
+
+        }
+        //[HttpPost]
+        //public async Task<ActionResult> MakePayment(PaymentViewModel model)
+        //{
+        //    await ;
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    return View(model);
+        //}
 
         public PaymentsController(RentalContext context)
         {
