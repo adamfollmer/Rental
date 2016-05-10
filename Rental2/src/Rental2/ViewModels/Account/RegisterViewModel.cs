@@ -8,6 +8,9 @@ namespace Rental2.ViewModels.Account
 {
     public class RegisterViewModel
     {
+        [Required, MaxLength(256)]
+        public string Username { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

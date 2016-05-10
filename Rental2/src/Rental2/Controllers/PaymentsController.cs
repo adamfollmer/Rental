@@ -22,22 +22,22 @@ namespace Rental2.Controllers
         {
             _context = context;    
         }
-        public ActionResult RentPayment()
-        {
-            return View();
+        //public ActionResult RentPayment()
+        //{
+        //    return View();
 
-        }
-        [HttpPost]
-        public async Task<ActionResult> RentPayment(PaymentViewModel model)
-        {
+        //}
+        //[HttpPost]
+        //public async Task<ActionResult> RentPayment(PaymentViewModel model)
+        //{
             
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            var payment = new Payment();
-            return View(model);
-        }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+        //    var payment = new Payment();
+        //    return View(model);
+        //}
         // GET: Payments
         public IActionResult Index()
         {

@@ -4,6 +4,7 @@ using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using Rental2.Models;
 using System.Collections.Generic;
+using Microsoft.AspNet.Authorization;
 
 namespace Rental2.Controllers
 {
@@ -49,6 +50,7 @@ namespace Rental2.Controllers
         }
 
         // GET: YearlyRentals/Details/5
+        [Authorize(Roles = "Tenant")]
         public IActionResult Details(int? id)
         {
             if (id == null)
