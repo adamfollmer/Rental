@@ -26,8 +26,15 @@ namespace Rental2.Migrations.Rental
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AcceptsCats = table.Column<bool>(nullable: false),
+                    AcceptsDogs = table.Column<bool>(nullable: false),
                     Address = table.Column<string>(nullable: true),
-                    Rent = table.Column<double>(nullable: false)
+                    Bathrooms = table.Column<double>(nullable: false),
+                    Bedrooms = table.Column<double>(nullable: false),
+                    City = table.Column<string>(nullable: true),
+                    Rent = table.Column<double>(nullable: false),
+                    State = table.Column<string>(nullable: true),
+                    ZipCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -39,9 +46,11 @@ namespace Rental2.Migrations.Rental
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AdditionalTenants = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: false),
                     ForwardingAddress = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
                     Phone = table.Column<string>(nullable: false)
                 },
                 constraints: table =>

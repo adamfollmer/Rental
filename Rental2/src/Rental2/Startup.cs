@@ -11,9 +11,26 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Rental2.Models;
 using Rental2.Services;
+using Microsoft.AspNet.Identity;
 
 namespace Rental2
 {
+    public static class RoleHelper
+    {
+        private static async Task EnsureRoleCreated(RoleManager<IdentityRole> roleManager, string roleName)
+        {
+            if (!await roleManager.RoleExistsAsync(roleName))
+            {
+                await roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+        }
+        public static async Task EnsureRolesCreated(this RoleManager<IdentityRole> roleManager)
+        {
+            // add all roles, that should be in database, here
+            await EnsureRoleCreated(roleManager, "Tenant");
+            await EnsureRoleCreated(roleManager, "Admin");
+        }
+    }
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -46,7 +63,9 @@ namespace Rental2
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.
+                AddIdentity<ApplicationUser, IdentityRole>()
+                .AddRoleManager<ApplicationRoleManager>() //This line
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -57,11 +76,13 @@ namespace Rental2
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public async void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, RoleManager<IdentityRole> roleManager) //added RolleManager
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            
 
             if (env.IsDevelopment())
             {
@@ -100,6 +121,7 @@ namespace Rental2
                     name: "default",
                     template: "{controller=Main}/{action=Index}/{id?}");
             });
+            await roleManager.EnsureRolesCreated();
         }
 
         // Entry point for the application.

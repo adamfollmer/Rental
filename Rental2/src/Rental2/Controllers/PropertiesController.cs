@@ -5,6 +5,7 @@ using Microsoft.Data.Entity;
 using Rental2.Models;
 using Rental2.ViewModels;
 using System.Collections.Generic;
+using Microsoft.AspNet.Authorization;
 
 namespace Rental2.Controllers
 {
@@ -18,6 +19,7 @@ namespace Rental2.Controllers
         }
 
         // GET: Properties
+        [Authorize(Roles = "Tenant")]
         public IActionResult Index()
         {
             var properties = _context.Properties.Include(p => p.PastRentals).ToList();

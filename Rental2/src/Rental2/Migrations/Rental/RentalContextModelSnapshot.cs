@@ -45,9 +45,23 @@ namespace Rental2.Migrations.Rental
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("AcceptsCats");
+
+                    b.Property<bool>("AcceptsDogs");
+
                     b.Property<string>("Address");
 
+                    b.Property<double>("Bathrooms");
+
+                    b.Property<double>("Bedrooms");
+
+                    b.Property<string>("City");
+
                     b.Property<double>("Rent");
+
+                    b.Property<string>("State");
+
+                    b.Property<string>("ZipCode");
 
                     b.HasKey("ID");
                 });
@@ -57,12 +71,17 @@ namespace Rental2.Migrations.Rental
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("AdditionalTenants");
+
                     b.Property<string>("Email");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired();
 
                     b.Property<string>("ForwardingAddress")
                         .IsRequired();
 
-                    b.Property<string>("Name")
+                    b.Property<string>("LastName")
                         .IsRequired();
 
                     b.Property<string>("Phone")

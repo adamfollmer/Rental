@@ -8,7 +8,7 @@ using Rental2.Models;
 namespace Rental2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160503135647_Initial")]
+    [Migration("20160510153554_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
