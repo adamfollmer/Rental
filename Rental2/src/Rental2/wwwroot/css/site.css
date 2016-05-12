@@ -36,14 +36,13 @@
 }
 
 .InnerImage {
-
 }
 
 .TopCenter {
     -ms-flex: 4;
     -webkit-flex: 4;
     flex: 4;
-    order: 1;
+    order: 0;
     background-image: url("../images/Skyline.png");
     background-size: cover;
     background-position: center;
@@ -94,6 +93,7 @@
 }
 
 @media all and (max-width: 640px) {
+
 
     .TopBanner {
         -ms-flex-direction: column;

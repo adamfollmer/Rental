@@ -184,6 +184,8 @@ namespace Rental2.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("ApplicationUserId");
+
                     b.Property<int>("BillId");
 
                     b.Property<DateTime?>("DateTimeReceived");
@@ -191,10 +193,6 @@ namespace Rental2.Migrations
                     b.Property<string>("Description");
 
                     b.Property<int>("PaymentAmount");
-
-                    b.Property<int>("TenantId");
-
-                    b.Property<string>("TenantId1");
 
                     b.Property<int?>("YearlyRentalID");
 
@@ -294,13 +292,13 @@ namespace Rental2.Migrations
 
             modelBuilder.Entity("Rental2.Models.Payment", b =>
                 {
+                    b.HasOne("Rental2.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("Rental2.Models.Bill")
                         .WithMany()
                         .HasForeignKey("BillId");
-
-                    b.HasOne("Rental2.Models.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("TenantId1");
 
                     b.HasOne("Rental2.Models.YearlyRental")
                         .WithMany()

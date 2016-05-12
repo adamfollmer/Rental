@@ -22,7 +22,7 @@ namespace Rental2.Models
         public string Description { get; set; }
         public int BillId { get; set; }
         public virtual Bill Bill { get; set; }
-        public int TenantId { get; set; }
+        public string ApplicationUserId { get; set; }
         public virtual ApplicationUser Tenant { get; set; }
     }
 }
