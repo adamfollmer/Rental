@@ -19,8 +19,17 @@ namespace Rental2.Controllers
         }
         public IActionResult Index()
         {
-            var yearly = db.YearlyRentals;
-            return View(yearly.ToList());
+            var properties = db.Properties;
+            List<Property> available = new List<Property>();
+            foreach(var item in properties.ToList())
+            {
+                if (!item.Occupied)
+                {
+                    available.Add(item);
+                }
+
+            }
+            return View(available);
         }
 
         public IActionResult About()

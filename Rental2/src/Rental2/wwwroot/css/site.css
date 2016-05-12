@@ -73,18 +73,19 @@
 
 @media all and (max-width: 640px) {
 
-  .TopBanner {
-  	flex-direction: column;
-  }
+    .TopBanner {
+        flex-direction: column;
+    }
 
-  .MainBody {
-  	flex-direction: column;
-  }
+    .MainBody {
+        flex-direction: column;
+    }
 
-  .TopCenter {
-	flex: 0;
-	order 1;
-	background-color: black;
+    .TopCenter {
+        flex: 0;
+        order 1;
+        background-color: black;
+    }
 }
 
 .navbar-inverse .navbar-nav > li > a {

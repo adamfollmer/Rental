@@ -218,6 +218,8 @@ namespace Rental2.Migrations
 
                     b.Property<string>("City");
 
+                    b.Property<bool>("Occupied");
+
                     b.Property<double>("Rent");
 
                     b.Property<string>("State");

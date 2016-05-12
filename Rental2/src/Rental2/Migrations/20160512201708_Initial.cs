@@ -72,6 +72,7 @@ namespace Rental2.Migrations
                     Bathrooms = table.Column<double>(nullable: false),
                     Bedrooms = table.Column<double>(nullable: false),
                     City = table.Column<string>(nullable: true),
+                    Occupied = table.Column<bool>(nullable: false),
                     Rent = table.Column<double>(nullable: false),
                     State = table.Column<string>(nullable: true),
                     ZipCode = table.Column<string>(nullable: true)
