@@ -12,8 +12,9 @@
 <table class="table">
     <tr>
         <th>
-            Current Tenant
+            Current Tenants
         </th>
+        <th></th>
         <th>
             Property
         </th>
@@ -24,8 +25,12 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CurrentTenant.LastName)
+                @foreach (var tenant in item.Tenants.ToList())
+                {
+                @Html.DisplayFor(modelItem => tenant.Tenant.LastName)               
+                }
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Property.Address)
             </td>

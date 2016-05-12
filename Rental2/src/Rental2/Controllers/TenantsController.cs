@@ -8,9 +8,9 @@ namespace Rental2.Controllers
 {
     public class TenantsController : Controller
     {
-        private RentalContext _context;
+        private ApplicationDbContext _context;
 
-        public TenantsController(RentalContext context)
+        public TenantsController(ApplicationDbContext context)
         {
             _context = context;    
         }
@@ -29,9 +29,9 @@ namespace Rental2.Controllers
                 return HttpNotFound();
             }
 
-            Tenant tenant = _context.Tenants
+            ApplicationUser tenant = _context.Tenants
                 .Include(m => m.RentalHistory)
-                .Single(m => m.ID == id);
+                .Single(m => m.Id == id.ToString());
             if (tenant == null)
             {
                 return HttpNotFound();
@@ -49,7 +49,7 @@ namespace Rental2.Controllers
         // POST: Tenants/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Tenant tenant)
+        public IActionResult Create(ApplicationUser tenant)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace Rental2.Controllers
                 return HttpNotFound();
             }
 
-            Tenant tenant = _context.Tenants.Single(m => m.ID == id);
+            ApplicationUser tenant = _context.Tenants.Single(m => m.Id == id.ToString());
             if (tenant == null)
             {
                 return HttpNotFound();
@@ -79,7 +79,7 @@ namespace Rental2.Controllers
         // POST: Tenants/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Tenant tenant)
+        public IActionResult Edit(ApplicationUser tenant)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace Rental2.Controllers
                 return HttpNotFound();
             }
 
-            Tenant tenant = _context.Tenants.Single(m => m.ID == id);
+            ApplicationUser tenant = _context.Tenants.Single(m => m.Id == id.ToString());
             if (tenant == null)
             {
                 return HttpNotFound();
@@ -113,7 +113,7 @@ namespace Rental2.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            Tenant tenant = _context.Tenants.Single(m => m.ID == id);
+            ApplicationUser tenant = _context.Tenants.Single(m => m.Id == id.ToString());
             _context.Tenants.Remove(tenant);
             _context.SaveChanges();
             return RedirectToAction("Index");

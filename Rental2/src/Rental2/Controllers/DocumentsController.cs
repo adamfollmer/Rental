@@ -8,9 +8,9 @@ namespace Rental2.Controllers
 {
     public class DocumentsController : Controller
     {
-        private RentalContext _context;
+        private ApplicationDbContext _context;
 
-        public DocumentsController(RentalContext context)
+        public DocumentsController(ApplicationDbContext context)
         {
             _context = context;    
         }

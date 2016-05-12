@@ -11,14 +11,15 @@ namespace Rental2.Controllers
 {
     public class PropertiesController : Controller
     {
-        private RentalContext _context;
+        private ApplicationDbContext _context;
 
-        public PropertiesController(RentalContext context)
+        public PropertiesController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
         // GET: Properties
+        //fuson
         [Authorize(Roles = "Tenant")]
         public IActionResult Index()
         {

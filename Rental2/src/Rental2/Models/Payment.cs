@@ -8,19 +8,21 @@ namespace Rental2.Models
 {
     public class Payment
     {
+        public Payment()
+        {
+            DateTimeReceived = DateTime.Now;
+        }
         public int ID { get; set; }
         [DataType(DataType.Currency)]
         [Display(Name = "Payment Amount")]
         public int PaymentAmount { get; set; }
         [DataType(DataType.Date)]
-        [Display(Name = "Payment Due Date")]
-        public DateTime DueDate { get; set; }
-        [DataType(DataType.Date)]
         [Display(Name = "Date Payment Received")]
-        public DateTime DateReceived { get; set; }
-
-        public int YearlyRentalID { get; set; }
-        public virtual YearlyRental YearlyRental { get; set; }
-
+        public DateTime? DateTimeReceived { get; set; }
+        public string Description { get; set; }
+        public int BillId { get; set; }
+        public virtual Bill Bill { get; set; }
+        public int TenantId { get; set; }
+        public virtual ApplicationUser Tenant { get; set; }
     }
 }

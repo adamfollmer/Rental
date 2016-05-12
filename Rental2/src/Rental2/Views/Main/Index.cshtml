@@ -21,30 +21,30 @@
     @foreach (var item in Model.Rentals)
     {
         string selectedRow = "";
-        if (item.ID == ViewBag.RentalID)
+        if (item.YearlyRentalId == ViewBag.RentalID)
         {
             selectedRow = "success";
         }
         <tr class="@selectedRow">
             <td>
-                @Html.ActionLink((item.CurrentTenant.LastName), "Index", new { id = item.ID })
+                @Html.ActionLink((item.Tenant.LastName), "Index", new { id = item.ApplicationUserId })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Property.Address)
+                @Html.DisplayFor(modelItem => item.YearlyRental.Property.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
+                @Html.DisplayFor(modelItem => item.YearlyRental.StartDate)
             </td>
             <td>
-                @if (item.EndDate != null)
+                @if (item.YearlyRental.EndDate != null)
                 {
-                    @Html.DisplayFor(modelItem => item.EndDate)
+                    @Html.DisplayFor(modelItem => item.YearlyRental.EndDate)
                 }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @Html.ActionLink("Edit", "Edit", new { id = item.YearlyRentalId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.YearlyRentalId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.YearlyRentalId })
             </td>
         </tr>
     }
@@ -70,10 +70,10 @@
             }
             <tr class="@selectedRow">
                 <td>
-                    @item.DueDate.ToShortDateString()
+                    @item.Bill.DueDate.ToShortDateString()
                 </td>
                 <td>
-                    @item.DateReceived.ToShortDateString()
+                    @item.DateTimeReceived
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PaymentAmount)
