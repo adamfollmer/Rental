@@ -4,20 +4,35 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Rental2.Models
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-
-        
-        protected override void OnModelCreating(ModelBuilder builder)
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<YearlyRental> YearlyRentals { get; set; }
+        public DbSet<Property> Properties { get; set; }
+        public DbSet<ApplicationUser> Tenants { get; set; }
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<Bill> Bills { get; set; }
+        public DbSet<RentalUserConnection> RentalUserConnections { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(builder);
+            
+            modelBuilder.Entity<RentalUserConnection>()
+                .HasKey(t => new { t.ApplicationUserId, t.YearlyRentalId });
 
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+            modelBuilder.Entity<RentalUserConnection>()
+                .HasOne(pt => pt.YearlyRental)
+                .WithMany(t => t.Tenants)
+                .HasForeignKey(pt => pt.YearlyRentalId);
+
+            modelBuilder.Entity<RentalUserConnection>()
+                .HasOne(pt => pt.Tenant)
+                .WithMany(t => t.RentalHistory)
+                .HasForeignKey(pt => pt.ApplicationUserId);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

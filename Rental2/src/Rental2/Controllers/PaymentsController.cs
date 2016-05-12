@@ -4,14 +4,27 @@ using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using Rental2.Models;
 using System.Collections.Generic;
+using Braintree;
+using Rental2.Services;
 
 namespace Rental2.Controllers
 {
     public class PaymentsController : Controller
     {
-        private RentalContext _context;
+        private ApplicationDbContext _context;
+        public IGateway config = new PaymentGateway();
+        public static readonly TransactionStatus[] transactionSuccessStatuses = {
+                                                                                    TransactionStatus.AUTHORIZED,
+                                                                                    TransactionStatus.AUTHORIZING,
+                                                                                    TransactionStatus.SETTLED,
+                                                                                    TransactionStatus.SETTLING,
+                                                                                    TransactionStatus.SETTLEMENT_CONFIRMED,
+                                                                                    TransactionStatus.SETTLEMENT_PENDING,
+                                                                                    TransactionStatus.SUBMITTED_FOR_SETTLEMENT
+                                                                                };
 
-        public PaymentsController(RentalContext context)
+
+        public PaymentsController(ApplicationDbContext context)
         {
             _context = context;    
         }
@@ -20,7 +33,9 @@ namespace Rental2.Controllers
         public IActionResult Index()
         {
             ViewBag.items = _context.Tenants.ToList();
-            var rentalContext = _context.Payments.Include(p => p.YearlyRental);
+            var rentalContext = _context.Payments
+                .Include(p => p.TenantId)
+                .Include(p => p.Bill);
             return View(rentalContext.ToList());
         }
 
@@ -48,29 +63,37 @@ namespace Rental2.Controllers
             //ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "Tenant");
             ViewBag.Items = GetYearlyRentalItems();
             return View();
+             
         }
-
+        //fuson
         private IEnumerable<SelectListItem> GetYearlyRentalItems (int selected = -1)
         {
             var tmp = _context.YearlyRentals
-                .Include(m => m.CurrentTenant)
+                .Include(m => m.EndDate)
                 .ToList();
 
             return tmp
-                .OrderBy(rental => rental.TenantID)
+                .OrderBy(rental => rental.Tenants.ElementAt(0).Tenant.LastName)
                 .Select(yearlyRentals => new SelectListItem
                 {
-                    Text = string.Format("{0}: {1}, {2}", yearlyRentals.ID, yearlyRentals.CurrentTenant.LastName, yearlyRentals.CurrentTenant.FirstName),
+                    Text = string.Format("{0}: {1}, {2}", yearlyRentals.ID, yearlyRentals.ID, yearlyRentals.EndDate),
                     Value = yearlyRentals.ID.ToString(),
                     Selected = yearlyRentals.ID == selected
                 });
         }
-
+        public ActionResult RentPayment()
+        {
+            var gateway = config.GetGateway();
+            var clientToken = gateway.ClientToken.generate();
+            ViewBag.ClientToken = clientToken;
+            return View();
+        }
         // POST: Payments/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Payment payment)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Payments.Add(payment);
@@ -96,7 +119,7 @@ namespace Rental2.Controllers
             {
                 return HttpNotFound();
             }
-            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "Tenant", payment.YearlyRentalID);
+            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "Tenant", payment.Bill.YearlyRentalId);
             return View(payment);
         }
 
@@ -111,7 +134,7 @@ namespace Rental2.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "Tenant", payment.YearlyRentalID);
+            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "Tenant", payment.Bill.YearlyRentalId);
             return View(payment);
         }
 

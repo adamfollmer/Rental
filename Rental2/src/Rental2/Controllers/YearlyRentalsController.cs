@@ -9,40 +9,42 @@ namespace Rental2.Controllers
 {
     public class YearlyRentalsController : Controller
     {
-        private RentalContext _context;
+        private ApplicationDbContext _context;
 
-        public YearlyRentalsController(RentalContext context)
+        public YearlyRentalsController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
         // GET: YearlyRentals
+        //fuson
+
         public IActionResult Index(string sortOrder, string searchString)
         {
             ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewBag.DateSortParm = sortOrder == "tenant" ? "tenant_desc" : "tenant";
             var rentalContext = from s in _context.YearlyRentals.
-                Include(y => y.CurrentTenant).
+                Include(y => y.Tenants).
                 Include(y => y.Property)
-                select s;
+                                select s;
             if (!string.IsNullOrEmpty(searchString))
             {
-                rentalContext = rentalContext.Where(s => s.CurrentTenant.LastName.Contains(searchString) 
-                || s.ID.ToString().Contains(searchString));
+                rentalContext = rentalContext.Where(s => s.Tenants.ElementAt(0).Tenant.LastName.Contains(searchString)
+                || s.Tenants.ElementAt(0).ApplicationUserId.ToString().Contains(searchString));
             }
             switch (sortOrder)
             {
                 case "id_desc":
-                    rentalContext = rentalContext.OrderByDescending(s => s.ID);
+                    rentalContext = rentalContext.OrderByDescending(s => s.Tenants.ElementAt(0).ApplicationUserId);
                     break;
                 case "tenant":
-                    rentalContext = rentalContext.OrderBy(s => s.CurrentTenant.LastName);
+                    rentalContext = rentalContext.OrderBy(s => s.Tenants.ElementAt(0).Tenant.LastName);
                     break;
                 case "tenant_desc":
-                    rentalContext =  rentalContext.OrderByDescending(s => s.CurrentTenant.LastName);
+                    rentalContext = rentalContext.OrderByDescending(s => s.Tenants.ElementAt(0).Tenant.LastName);
                     break;
                 default:
-                    rentalContext = rentalContext.OrderBy(s => s.ID);
+                    rentalContext = rentalContext.OrderBy(s => s.Tenants.ElementAt(0).ApplicationUserId);
                     break;
             }
             return View(rentalContext.ToList());
@@ -57,9 +59,10 @@ namespace Rental2.Controllers
             }
 
             YearlyRental yearlyRental = _context.YearlyRentals
-                .Include(y => y.CurrentTenant)
+                .Include(y => y.Tenants)
                 .Include(y => y.Property)
-                .Include(y => y.MonthlyPayments)
+                .Include(y => y.Bills)
+                .Include(y => y.Payments)
                 .Single(m => m.ID == id);
             if (yearlyRental == null)
             {
@@ -80,11 +83,11 @@ namespace Rental2.Controllers
         // POST: YearlyRentals/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(YearlyRental yearlyRental)
+        public IActionResult Create(RentalUserConnection yearlyRental)
         {
             if (ModelState.IsValid)
             {
-                _context.YearlyRentals.Add(yearlyRental);
+                _context.RentalUserConnections.Add(yearlyRental);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -101,20 +104,20 @@ namespace Rental2.Controllers
                 .Select(tenant => new SelectListItem
                 {
                     Text = string.Format("{0}", tenant.LastName),
-                    Value = tenant.ID.ToString(),
-                    Selected = tenant.ID == selected
+                    Value = tenant.Id.ToString(),
+                    Selected = tenant.Id == selected.ToString()
                 });
         }
 
         private IEnumerable<SelectListItem> GetPropertiesListItems(int selected = -1)
         {
-            var tmp = _context.Properties.ToList();
+            var tmp = _context.YearlyRentals.ToList();
 
             return tmp
-                .OrderBy(property => property.Address)
+                .OrderBy(property => property.Property.Address)
                 .Select(property => new SelectListItem
                 {
-                    Text = string.Format("{0}", property.Address),
+                    Text = string.Format("{0}", property.Property.Address),
                     Value = property.ID.ToString(),
                     Selected = property.ID == selected
                 });
@@ -128,8 +131,8 @@ namespace Rental2.Controllers
                 return HttpNotFound();
             }
 
-            YearlyRental yearlyRental = _context.YearlyRentals
-                .Single(m => m.ID == id);
+            RentalUserConnection yearlyRental = _context.RentalUserConnections
+                .Single(m => m.YearlyRentalId == id);
             if (yearlyRental == null)
             {
                 return HttpNotFound();
@@ -142,7 +145,7 @@ namespace Rental2.Controllers
         // POST: YearlyRentals/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(YearlyRental yearlyRental)
+        public IActionResult Edit(RentalUserConnection yearlyRental)
         {
             if (ModelState.IsValid)
             {
@@ -150,8 +153,8 @@ namespace Rental2.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "CurrentTenant", yearlyRental.TenantID);
-            ViewData["PropertyID"] = new SelectList(_context.Properties, "ID", "Property", yearlyRental.PropertyID);
+            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "Tenants", yearlyRental.ApplicationUserId);
+            ViewData["PropertyID"] = new SelectList(_context.YearlyRentals, "ID", "Property", yearlyRental.YearlyRental.PropertyID);
             return View(yearlyRental);
         }
 
@@ -164,7 +167,7 @@ namespace Rental2.Controllers
                 return HttpNotFound();
             }
 
-            YearlyRental yearlyRental = _context.YearlyRentals.Single(m => m.ID == id);
+            RentalUserConnection yearlyRental = _context.RentalUserConnections.Single(m => m.YearlyRentalId == id);
             if (yearlyRental == null)
             {
                 return HttpNotFound();
@@ -178,8 +181,8 @@ namespace Rental2.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            YearlyRental yearlyRental = _context.YearlyRentals.Single(m => m.ID == id);
-            _context.YearlyRentals.Remove(yearlyRental);
+            RentalUserConnection yearlyRental = _context.RentalUserConnections.Single(m => m.YearlyRentalId == id);
+            _context.RentalUserConnections.Remove(yearlyRental);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "dnx451": {
+      "bin": {
+        "assembly": "../../lib/dnx451/Braintree-2.58.0.dll"
+      }
+    }
+  }
+}

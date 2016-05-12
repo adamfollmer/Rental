@@ -11,15 +11,15 @@ namespace Rental2.Controllers
 {
     public class HomeController : Controller
     {
-        private RentalContext db;
+        private ApplicationDbContext db;
 
-        public HomeController(RentalContext context)
+        public HomeController(ApplicationDbContext context)
         {
             db = context;
         }
         public IActionResult Index()
         {
-            var yearly = db.YearlyRentals.Include(c => c.CurrentTenant).Include(c => c.Property);
+            var yearly = db.YearlyRentals;
             return View(yearly.ToList());
         }
 

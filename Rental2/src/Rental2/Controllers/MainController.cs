@@ -9,9 +9,9 @@ namespace Rental2.Controllers
 {
     public class MainController : Controller
     {
-        private RentalContext _context;
+        private ApplicationDbContext _context;
 
-        public MainController(RentalContext context)
+        public MainController(ApplicationDbContext context)
         {
             _context = context;    
         }
@@ -20,16 +20,15 @@ namespace Rental2.Controllers
         public IActionResult Index(int? id, int? tenantID, int? paymentID)
         {
             var viewModel = new PropertyIndexData();
-            viewModel.Rentals = _context.YearlyRentals
-                .Include(i => i.MonthlyPayments)
-                .Include(i => i.CurrentTenant)
-                .Include(i => i.Property)
-                .OrderBy(i => i.ID);
+            viewModel.Payments = _context.Payments
+                .Include(i => i.Tenant)
+                .Include(i => i.Bill)
+                .OrderBy(i => i.BillId);
 
             if (id != null)
             {
                 ViewBag.RentalID = id.Value;
-                viewModel.Payments = viewModel.Rentals.Where(i => i.ID == id.Value).Single().MonthlyPayments;
+                viewModel.Payments = viewModel.Rentals.Where(i => i.YearlyRentalId == id.Value).Single().YearlyRental.Payments;
             }
 
             return View(viewModel);
@@ -43,7 +42,7 @@ namespace Rental2.Controllers
                 return HttpNotFound();
             }
 
-            YearlyRental yearlyRental = _context.YearlyRentals.Single(m => m.ID == id);
+            RentalUserConnection yearlyRental = _context.RentalUserConnections.Single(m => m.YearlyRentalId == id);
             if (yearlyRental == null)
             {
                 return HttpNotFound();
@@ -55,24 +54,24 @@ namespace Rental2.Controllers
         // GET: Main/Create
         public IActionResult Create()
         {
-            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "CurrentTenant");
-            ViewData["PropertyID"] = new SelectList(_context.Properties, "ID", "Property");
+            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "LastName");
+            ViewData["PropertyID"] = new SelectList(_context.YearlyRentals, "ID", "Property");
             return View();
         }
 
         // POST: Main/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(YearlyRental yearlyRental)
+        public IActionResult Create(RentalUserConnection yearlyRental)
         {
             if (ModelState.IsValid)
             {
-                _context.YearlyRentals.Add(yearlyRental);
+                _context.RentalUserConnections.Add(yearlyRental);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "CurrentTenant", yearlyRental.TenantID);
-            ViewData["PropertyID"] = new SelectList(_context.Properties, "ID", "Property", yearlyRental.PropertyID);
+            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "Tenants", yearlyRental.Tenant);
+            ViewData["PropertyID"] = new SelectList(_context.YearlyRentals, "ID", "Property", yearlyRental.YearlyRental.PropertyID);
             return View(yearlyRental);
         }
 
@@ -84,20 +83,20 @@ namespace Rental2.Controllers
                 return HttpNotFound();
             }
 
-            YearlyRental yearlyRental = _context.YearlyRentals.Single(m => m.ID == id);
+            RentalUserConnection yearlyRental = _context.RentalUserConnections.Single(m => m.YearlyRentalId == id);
             if (yearlyRental == null)
             {
                 return HttpNotFound();
             }
-            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "CurrentTenant", yearlyRental.TenantID);
-            ViewData["PropertyID"] = new SelectList(_context.Properties, "ID", "Property", yearlyRental.PropertyID);
+            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "Tenants", yearlyRental.Tenant);
+            ViewData["PropertyID"] = new SelectList(_context.YearlyRentals, "ID", "Property", yearlyRental.YearlyRental.PropertyID);
             return View(yearlyRental);
         }
 
         // POST: Main/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(YearlyRental yearlyRental)
+        public IActionResult Edit(RentalUserConnection yearlyRental)
         {
             if (ModelState.IsValid)
             {
@@ -105,8 +104,8 @@ namespace Rental2.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "CurrentTenant", yearlyRental.TenantID);
-            ViewData["PropertyID"] = new SelectList(_context.Properties, "ID", "Property", yearlyRental.PropertyID);
+            ViewData["TenantID"] = new SelectList(_context.Tenants, "ID", "Tenants", yearlyRental.Tenant);
+            ViewData["PropertyID"] = new SelectList(_context.YearlyRentals, "ID", "Property", yearlyRental.YearlyRental.PropertyID);
             return View(yearlyRental);
         }
 
@@ -119,7 +118,7 @@ namespace Rental2.Controllers
                 return HttpNotFound();
             }
 
-            YearlyRental yearlyRental = _context.YearlyRentals.Single(m => m.ID == id);
+            RentalUserConnection yearlyRental = _context.RentalUserConnections.Single(m => m.YearlyRentalId == id);
             if (yearlyRental == null)
             {
                 return HttpNotFound();
@@ -133,8 +132,8 @@ namespace Rental2.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            YearlyRental yearlyRental = _context.YearlyRentals.Single(m => m.ID == id);
-            _context.YearlyRentals.Remove(yearlyRental);
+            RentalUserConnection yearlyRental = _context.RentalUserConnections.Single(m => m.YearlyRentalId == id);
+            _context.RentalUserConnections.Remove(yearlyRental);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }

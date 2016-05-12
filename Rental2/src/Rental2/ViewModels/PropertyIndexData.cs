@@ -8,10 +8,13 @@ namespace Rental2.ViewModels
 {
     public class PropertyIndexData
     {
-        public IEnumerable<YearlyRental> Rentals { get; set; }
+        public IEnumerable<RentalUserConnection> Rentals { get; set; }
         public IEnumerable<Payment> Payments { get; set; }
         public IEnumerable<Property> Properties { get; set; }
-        public IEnumerable<Tenant> Tenants { get; set; }
-        
+        public IEnumerable<Bill> Bills { get; set; }
+        public IEnumerable<YearlyRental> YearlyRentals { get; set; }
+        public IEnumerable<ApplicationUser> Tenants { get; set; }
+
+
     }
 }

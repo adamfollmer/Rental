@@ -8,6 +8,10 @@ namespace Rental2.Models
 {
     public class Property
     {
+        public Property()
+        {
+            PastRentals = new HashSet<RentalUserConnection>();
+        }
         public int ID { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
@@ -20,6 +24,7 @@ namespace Rental2.Models
         [DataType(DataType.Currency)]
         public double Rent { get; set; }
 
-        public virtual IList<YearlyRental> PastRentals { get; set; }
+        public virtual ICollection<RentalUserConnection> PastRentals { get; set; }
+        
     }
 }

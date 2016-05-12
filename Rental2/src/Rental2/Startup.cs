@@ -58,8 +58,8 @@ namespace Rental2
             // Add framework services.
             services.AddEntityFramework()
                 .AddSqlServer()
-                .AddDbContext<RentalContext>(options =>
-                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]))
+                //.AddDbContext<RentalContext>(options =>
+                //    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]))
                 .AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
