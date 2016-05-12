@@ -38,6 +38,7 @@
         </tr>
     }
 </table>
+<div id="Picture"><img src="~/images/Logo.png" /></div>
 <div id="map"></div>
 <script>
     var map = new GMaps({
@@ -59,7 +60,7 @@
                         lng: latlng.lng(),
                         title: '@item.Address',
                         infoWindow: {
-                            content: '<p> Rent: @item.Rent <br> Current Tenant: @item.PastRentals.ElementAt(0).CurrentTenant <br> Date Lease Ends: @item.PastRentals.ElementAt(0).EndDate </p>'
+                            content: '<p> Rent: @item.Rent </p>'
                         }
                     });
                 }

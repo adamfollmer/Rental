@@ -24,29 +24,25 @@
 
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-controller="Main" asp-action="Index" class="navbar-brand"><img src="~/images/Logo.png"></a>
-            </div>
+    <div class="TopBanner">
+        <div class="TopLeft">
+            <div class="InnerImage"></div>
+        </div>
+        <div class="TopCenter"></div>
+        <div class="TopRight">
             <div class="navbar-collapse collapse">
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2016 - Rental2</p>
-        </footer>
+    <div class="MainBody">
+        <div class="Sidebar"></div>
+        <div class="Content" overflow-y:scroll>@RenderBody()</div>
+
     </div>
+    <footer>
+        <p>&copy; 2016 - Rental2</p>
+    </footer>
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
