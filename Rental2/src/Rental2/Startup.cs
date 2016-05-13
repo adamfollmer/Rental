@@ -112,7 +112,6 @@ namespace Rental2
             app.UseStaticFiles();
 
             app.UseIdentity();
-
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>
@@ -122,7 +121,6 @@ namespace Rental2
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
             await roleManager.EnsureRolesCreated();
-            app.SeedData();
         }
 
         // Entry point for the application.
