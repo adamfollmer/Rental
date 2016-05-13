@@ -19,7 +19,6 @@ namespace Rental2.Controllers
         }
 
         // GET: Properties
-        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var properties = _context.Properties.Include(p => p.PastRentals).ToList();

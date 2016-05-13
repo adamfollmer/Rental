@@ -122,7 +122,7 @@ namespace Rental2
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
             await roleManager.EnsureRolesCreated();
-            app.SeedData();
+            //app.SeedData();
         }
 
         // Entry point for the application.

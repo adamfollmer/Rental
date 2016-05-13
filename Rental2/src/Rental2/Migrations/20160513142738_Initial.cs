@@ -72,6 +72,7 @@ namespace Rental2.Migrations
                     Bathrooms = table.Column<double>(nullable: false),
                     Bedrooms = table.Column<double>(nullable: false),
                     City = table.Column<string>(nullable: true),
+                    Occupied = table.Column<bool>(nullable: false),
                     Rent = table.Column<double>(nullable: false),
                     State = table.Column<string>(nullable: true),
                     ZipCode = table.Column<string>(nullable: true)
@@ -238,29 +239,28 @@ namespace Rental2.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ApplicationUserId = table.Column<string>(nullable: true),
                     BillId = table.Column<int>(nullable: false),
                     DateTimeReceived = table.Column<DateTime>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     PaymentAmount = table.Column<int>(nullable: false),
-                    TenantId = table.Column<int>(nullable: false),
-                    TenantId1 = table.Column<string>(nullable: true),
                     YearlyRentalID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Payment", x => x.ID);
                     table.ForeignKey(
+                        name: "FK_Payment_ApplicationUser_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Payment_Bill_BillId",
                         column: x => x.BillId,
                         principalTable: "Bill",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Payment_ApplicationUser_TenantId1",
-                        column: x => x.TenantId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Payment_YearlyRental_YearlyRentalID",
                         column: x => x.YearlyRentalID,

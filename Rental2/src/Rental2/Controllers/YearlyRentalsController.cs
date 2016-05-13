@@ -21,32 +21,35 @@ namespace Rental2.Controllers
 
         public IActionResult Index(string sortOrder, string searchString)
         {
-            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "tenant" ? "tenant_desc" : "tenant";
-            var rentalContext = from s in _context.YearlyRentals.
-                Include(y => y.Tenants).
-                Include(y => y.Property)
-                                select s;
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                rentalContext = rentalContext.Where(s => s.Tenants.ElementAt(0).Tenant.LastName.Contains(searchString)
-                || s.Tenants.ElementAt(0).ApplicationUserId.ToString().Contains(searchString));
-            }
-            switch (sortOrder)
-            {
-                case "id_desc":
-                    rentalContext = rentalContext.OrderByDescending(s => s.Tenants.ElementAt(0).ApplicationUserId);
-                    break;
-                case "tenant":
-                    rentalContext = rentalContext.OrderBy(s => s.Tenants.ElementAt(0).Tenant.LastName);
-                    break;
-                case "tenant_desc":
-                    rentalContext = rentalContext.OrderByDescending(s => s.Tenants.ElementAt(0).Tenant.LastName);
-                    break;
-                default:
-                    rentalContext = rentalContext.OrderBy(s => s.Tenants.ElementAt(0).ApplicationUserId);
-                    break;
-            }
+            //ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            //ViewBag.DateSortParm = sortOrder == "tenant" ? "tenant_desc" : "tenant";
+            //var rentalContext = from s in _context.YearlyRentals.
+            //    Include(y => y.Tenants).
+            //    Include(y => y.Property)
+            //                    select s;
+            //if (!string.IsNullOrEmpty(searchString))
+            //{
+            //    rentalContext = rentalContext.Where(s => s.Tenants.ElementAt(0).Tenant.LastName.Contains(searchString)
+            //    || s.Tenants.ElementAt(0).ApplicationUserId.ToString().Contains(searchString));
+            //}
+            //switch (sortOrder)
+            //{
+            //    case "id_desc":
+            //        rentalContext = rentalContext.OrderByDescending(s => s.Tenants.ElementAt(0).ApplicationUserId);
+            //        break;
+            //    case "tenant":
+            //        rentalContext = rentalContext.OrderBy(s => s.Tenants.ElementAt(0).Tenant.LastName);
+            //        break;
+            //    case "tenant_desc":
+            //        rentalContext = rentalContext.OrderByDescending(s => s.Tenants.ElementAt(0).Tenant.LastName);
+            //        break;
+            //    default:
+            //        rentalContext = rentalContext.OrderBy(s => s.Tenants.ElementAt(0).ApplicationUserId);
+            //        break;
+            //}
+            var rentalContext = _context.YearlyRentals
+                .Include(y => y.Tenants)
+                .Include(y => y.Property);
             return View(rentalContext.ToList());
         }
 
@@ -103,7 +106,7 @@ namespace Rental2.Controllers
                 .OrderBy(tenant => tenant.Email)
                 .Select(tenant => new SelectListItem
                 {
-                    Text = string.Format("{0}", tenant.LastName),
+                    Text = string.Format("{0}", tenant.UserName),
                     Value = tenant.Id.ToString(),
                     Selected = tenant.Id == selected.ToString()
                 });
@@ -111,13 +114,13 @@ namespace Rental2.Controllers
 
         private IEnumerable<SelectListItem> GetPropertiesListItems(int selected = -1)
         {
-            var tmp = _context.YearlyRentals.ToList();
+            var tmp = _context.Properties.ToList();
 
             return tmp
-                .OrderBy(property => property.Property.Address)
+                .OrderBy(property => property.Address)
                 .Select(property => new SelectListItem
                 {
-                    Text = string.Format("{0}", property.Property.Address),
+                    Text = string.Format("{0}", property.Address),
                     Value = property.ID.ToString(),
                     Selected = property.ID == selected
                 });

@@ -1,20 +1,23 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
-using Rental2.Models;
+using WebApplication1.Models;
 
-namespace Rental2.Migrations
+namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160512174516_Initial")]
-    partial class Initial
+    [Migration("00000000000000_CreateIdentitySchema")]
+    partial class CreateIdentitySchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
+                .HasAnnotation("ProductVersion", "7.0.0-beta8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRole", b =>
@@ -47,8 +50,7 @@ namespace Rental2.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired();
+                    b.Property<string>("RoleId");
 
                     b.HasKey("Id");
 
@@ -64,8 +66,7 @@ namespace Rental2.Migrations
 
                     b.Property<string>("ClaimValue");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
@@ -80,8 +81,7 @@ namespace Rental2.Migrations
 
                     b.Property<string>("ProviderDisplayName");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
+                    b.Property<string>("UserId");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -99,7 +99,7 @@ namespace Rental2.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Rental2.Models.ApplicationUser", b =>
+            modelBuilder.Entity("WebApplication1.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
 
@@ -112,15 +112,6 @@ namespace Rental2.Migrations
                         .HasAnnotation("MaxLength", 256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired();
-
-                    b.Property<string>("ForwardingAddress")
-                        .IsRequired();
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -156,102 +147,6 @@ namespace Rental2.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUsers");
                 });
 
-            modelBuilder.Entity("Rental2.Models.Bill", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<decimal>("Amount");
-
-                    b.Property<string>("Description");
-
-                    b.Property<DateTime>("DueDate");
-
-                    b.Property<int>("YearlyRentalId");
-
-                    b.HasKey("ID");
-                });
-
-            modelBuilder.Entity("Rental2.Models.Document", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.HasKey("ID");
-                });
-
-            modelBuilder.Entity("Rental2.Models.Payment", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("BillId");
-
-                    b.Property<DateTime?>("DateTimeReceived");
-
-                    b.Property<string>("Description");
-
-                    b.Property<int>("PaymentAmount");
-
-                    b.Property<int>("TenantId");
-
-                    b.Property<string>("TenantId1");
-
-                    b.Property<int?>("YearlyRentalID");
-
-                    b.HasKey("ID");
-                });
-
-            modelBuilder.Entity("Rental2.Models.Property", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("AcceptsCats");
-
-                    b.Property<bool>("AcceptsDogs");
-
-                    b.Property<string>("Address");
-
-                    b.Property<double>("Bathrooms");
-
-                    b.Property<double>("Bedrooms");
-
-                    b.Property<string>("City");
-
-                    b.Property<double>("Rent");
-
-                    b.Property<string>("State");
-
-                    b.Property<string>("ZipCode");
-
-                    b.HasKey("ID");
-                });
-
-            modelBuilder.Entity("Rental2.Models.RentalUserConnection", b =>
-                {
-                    b.Property<string>("ApplicationUserId");
-
-                    b.Property<int>("YearlyRentalId");
-
-                    b.Property<int?>("PropertyID");
-
-                    b.HasKey("ApplicationUserId", "YearlyRentalId");
-                });
-
-            modelBuilder.Entity("Rental2.Models.YearlyRental", b =>
-                {
-                    b.Property<int>("ID");
-
-                    b.Property<DateTime?>("EndDate");
-
-                    b.Property<int>("PropertyID");
-
-                    b.Property<DateTime>("StartDate");
-
-                    b.HasKey("ID");
-                });
-
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNet.Identity.EntityFramework.IdentityRole")
@@ -261,14 +156,14 @@ namespace Rental2.Migrations
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Rental2.Models.ApplicationUser")
+                    b.HasOne("WebApplication1.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Rental2.Models.ApplicationUser")
+                    b.HasOne("WebApplication1.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });
@@ -279,53 +174,9 @@ namespace Rental2.Migrations
                         .WithMany()
                         .HasForeignKey("RoleId");
 
-                    b.HasOne("Rental2.Models.ApplicationUser")
+                    b.HasOne("WebApplication1.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("Rental2.Models.Bill", b =>
-                {
-                    b.HasOne("Rental2.Models.YearlyRental")
-                        .WithMany()
-                        .HasForeignKey("YearlyRentalId");
-                });
-
-            modelBuilder.Entity("Rental2.Models.Payment", b =>
-                {
-                    b.HasOne("Rental2.Models.Bill")
-                        .WithMany()
-                        .HasForeignKey("BillId");
-
-                    b.HasOne("Rental2.Models.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("TenantId1");
-
-                    b.HasOne("Rental2.Models.YearlyRental")
-                        .WithMany()
-                        .HasForeignKey("YearlyRentalID");
-                });
-
-            modelBuilder.Entity("Rental2.Models.RentalUserConnection", b =>
-                {
-                    b.HasOne("Rental2.Models.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("Rental2.Models.Property")
-                        .WithMany()
-                        .HasForeignKey("PropertyID");
-
-                    b.HasOne("Rental2.Models.YearlyRental")
-                        .WithMany()
-                        .HasForeignKey("YearlyRentalId");
-                });
-
-            modelBuilder.Entity("Rental2.Models.YearlyRental", b =>
-                {
-                    b.HasOne("Rental2.Models.Property")
-                        .WithMany()
-                        .HasForeignKey("PropertyID");
                 });
         }
     }

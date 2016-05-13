@@ -12,9 +12,24 @@
             </li>
         </ul>
     </form>
+    @if (User.IsInRole("Tenant"))
+    {
+        <p>
+            Next Payment Due: <br />
+            Balance Due: <br />
+            Last Payment <br />
+        </p>
+
+    }
+    else if (User.IsInRole("Admin"))
+    {
+
+
+    }
+    
 }
-else
-{
+    else
+    {
     <ul class="nav navbar-nav navbar-right">
         <li><a asp-controller="Account" asp-action="Register">Register</a></li>
         <li><a asp-controller="Account" asp-action="Login">Log in</a></li>

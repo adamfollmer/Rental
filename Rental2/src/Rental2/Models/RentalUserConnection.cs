@@ -13,6 +13,8 @@ namespace Rental2.Models
         [ForeignKey("AspNetUsers")]
         public string ApplicationUserId { get; set; }
         public ApplicationUser Tenant { get; set; }
+        [Key]
+        [ForeignKey("YearlyRental")]
         public int YearlyRentalId { get; set; }
         public YearlyRental YearlyRental { get; set; }
     }
