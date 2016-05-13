@@ -119,9 +119,10 @@ namespace Rental2
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Main}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
             await roleManager.EnsureRolesCreated();
+            app.SeedData();
         }
 
         // Entry point for the application.

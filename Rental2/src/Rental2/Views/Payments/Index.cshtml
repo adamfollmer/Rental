@@ -1,4 +1,4 @@
-@model IEnumerable<Rental2.Models.Payment>
+@model Rental2.ViewModels.PropertyIndexData
 
 @{
     ViewData["Title"] = "Index";
@@ -7,56 +7,56 @@
 <h2>Payments Home</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @*Partial View of bills outstanding
+    *@
+
 </p>
 <table class="table">
     <tr>
         <th>
-            Yearly Rental ID
+            Tenant Name
         </th>
         <th>
-            Tenant
+            Payment ID
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DateReceived)
+            Payment Amount
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DueDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaymentAmount)
+            Bill Total
         </th>
         <th></th>
     </tr>
-    
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.YearlyRentalID)
-        </td>
-        <td>
-            @foreach (Tenant item2 in ViewBag.items)
+
+    @foreach (var item in Model.Bills)
+    {
+        @foreach (ApplicationUser item2 in ViewBag.items)
+        {
+            @foreach (RentalUserConnection history in item2.RentalHistory)
             {
-                if (item.YearlyRental.TenantID == item2.ID)
+                if (item.YearlyRentalId == history.YearlyRentalId)
                 {
-                    @Html.DisplayName(item2.Name)
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DueDate)
+                        </td>
+                    </tr>
+                    @foreach (Payment payment in history.YearlyRental.Payments)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => payment.Tenant.UserName)</td> 
+                            <td>@Html.DisplayFor(modelItem => payment.PaymentAmount)</td> 
+                            <td>@Html.DisplayFor(modelItem => payment.DateTimeReceived)</td> 
+                        </tr>
+                    }
+
                 }
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateReceived)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DueDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaymentAmount)
-        </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-        </td>
-    </tr>
-}
+            }}
+    }
 </table>

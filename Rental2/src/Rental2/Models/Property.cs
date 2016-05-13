@@ -23,7 +23,7 @@ namespace Rental2.Models
         public bool AcceptsDogs { get; set; }
         [DataType(DataType.Currency)]
         public double Rent { get; set; }
-
+        public bool Occupied { get; set; }
         public virtual ICollection<RentalUserConnection> PastRentals { get; set; }
         
     }

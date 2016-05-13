@@ -7,7 +7,7 @@
     "emitEntryPoint": true
   },
   "dependencies": {
-    "Braintree-2.58.0": "1.0.0-*",
+    "Braintree": "2.59.0",
     "EntityFramework.Commands": "7.0.0-rc1-final",
     "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
     "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
