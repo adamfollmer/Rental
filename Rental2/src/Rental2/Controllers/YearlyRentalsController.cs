@@ -4,6 +4,7 @@ using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using Rental2.Models;
 using System.Collections.Generic;
+using Rental2.ViewModels.RentalSetup;
 
 namespace Rental2.Controllers
 {
@@ -86,17 +87,24 @@ namespace Rental2.Controllers
         // POST: YearlyRentals/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(RentalUserConnection yearlyRental)
-        {
+        public IActionResult Create(RentingConnectionData viewContextData)
+        {           
+
             if (ModelState.IsValid)
-            {
-                _context.RentalUserConnections.Add(yearlyRental);
+            { 
+                YearlyRental yearlyRental = new YearlyRental() { ID = viewContextData.ID, EndDate = viewContextData.EndDate, PropertyID = viewContextData.PropertyID, StartDate = viewContextData.StartDate };
+                foreach(var i in viewContextData.TenantIds)
+                {
+                RentalUserConnection connection = new RentalUserConnection() { ApplicationUserId = i, YearlyRentalId = yearlyRental.ID };
+                    _context.RentalUserConnections.Add(connection);
+                }
+                _context.YearlyRentals.Add(yearlyRental); 
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.TenantItems = GetTenantsListItems();
             ViewBag.PropertyItems = GetPropertiesListItems();
-            return View(yearlyRental);
+            return View(viewContextData);
         }
         private IEnumerable<SelectListItem> GetTenantsListItems(int selected = -1)
         {
@@ -107,7 +115,7 @@ namespace Rental2.Controllers
                 .Select(tenant => new SelectListItem
                 {
                     Text = string.Format("{0}", tenant.UserName),
-                    Value = tenant.Id.ToString(),
+                    Value = tenant.Id,
                     Selected = tenant.Id == selected.ToString()
                 });
         }

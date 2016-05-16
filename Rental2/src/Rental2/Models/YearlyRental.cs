@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Rental2.Models
 {
-    public class YearlyRental
+    public class YearlyRental 
     {
         public YearlyRental()
         {
