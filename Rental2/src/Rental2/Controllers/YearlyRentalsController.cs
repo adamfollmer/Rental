@@ -87,6 +87,7 @@ namespace Rental2.Controllers
         // POST: YearlyRentals/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public IActionResult Create(RentingConnectionData viewContextData)
         {           
 
