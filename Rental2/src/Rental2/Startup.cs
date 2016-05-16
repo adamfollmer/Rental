@@ -112,7 +112,6 @@ namespace Rental2
             app.UseStaticFiles();
 
             app.UseIdentity();
-
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
             app.UseMvc(routes =>

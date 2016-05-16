@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Rental2.Models
 {
-    public class YearlyRental
+    public class YearlyRental 
     {
         public YearlyRental()
         {
@@ -26,7 +26,7 @@ namespace Rental2.Models
         [Display(Name = "Move-out Date")]
         public DateTime? EndDate { get; set; }
         [Display(Name = "Tenants")]
-        public ICollection<RentalUserConnection> Tenants { get; set; }
+        public virtual ICollection<RentalUserConnection> Tenants { get; set; }
         [Display(Name = "Property")]
         public int PropertyID { get; set; }
         public virtual Property Property { get; set; }

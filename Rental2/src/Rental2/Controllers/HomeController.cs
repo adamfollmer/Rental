@@ -29,6 +29,7 @@ namespace Rental2.Controllers
                 }
 
             }
+            ViewData["MyProp"] = available;
             return View(available);
         }
 
