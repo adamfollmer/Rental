@@ -8,7 +8,7 @@ using Rental2.Models;
 namespace Rental2.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160513142738_Initial")]
+    [Migration("20160513170746_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,14 +113,11 @@ namespace Rental2.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired();
+                    b.Property<string>("FirstName");
 
-                    b.Property<string>("ForwardingAddress")
-                        .IsRequired();
+                    b.Property<string>("ForwardingAddress");
 
-                    b.Property<string>("LastName")
-                        .IsRequired();
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 

@@ -86,11 +86,19 @@ namespace Rental2.Controllers
         // POST: YearlyRentals/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(RentalUserConnection yearlyRental)
+        public IActionResult Create(YearlyRental yearlyRental)
         {
             if (ModelState.IsValid)
             {
-                _context.RentalUserConnections.Add(yearlyRental);
+                _context.YearlyRentals.Add(yearlyRental);
+                foreach (RentalUserConnection tenant in yearlyRental.Tenants)
+                {
+                    new RentalUserConnection
+                    {
+                        ApplicationUserId = tenant.ApplicationUserId,
+                        YearlyRentalId = yearlyRental.ID
+                    };
+                }
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
