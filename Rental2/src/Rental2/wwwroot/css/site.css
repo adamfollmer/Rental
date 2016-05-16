@@ -3,12 +3,19 @@
     -ms-flex-direction: column;
     -webkit-flex-direction: column;
     flex-direction: column;
-    background-color: white;
+    background-color: #C3C3C3;
     -ms-flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
     height: 98vh;
     padding: .5em;
+}
+
+form-control,
+input,
+select,
+textarea {
+    max-width: 280px;
 }
 
 .TopBanner {
@@ -20,23 +27,32 @@
     -ms-flex-wrap: wrap;
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
-    background-color: red;
+    background-color: #C3C3C3;
 }
 
 .TopLeft {
     -ms-flex: 1;
     -webkit-flex: 1;
     flex: 1;
-    background-color: lightgray;
+    background-color: #C3C3C3;
     background-image: url("../images/Logo.png");
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
     position: relative;
 }
-
-.InnerImage {
-}
+    .TopLeft a {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        text-decoration: none; /* No underlines on the link */
+        z-index: 10; /* Places the link above everything else in the div */
+        background-color: #FFF; /* Fix to make div clickable in IE */
+        opacity: 0; /* Fix to make div clickable in IE */
+        filter: alpha(opacity=1); /* Fix to make div clickable in IE */
+    }
 
 .TopCenter {
     -ms-flex: 4;
@@ -46,7 +62,7 @@
     background-image: url("../images/Skyline.png");
     background-size: cover;
     background-position: center;
-    background-color: #e4e4e4;
+    background-color: #C3C3C3;
     background-repeat: no-repeat;
     position: relative;
 }
@@ -55,7 +71,7 @@
     -ms-flex: 1;
     -webkit-flex: 1;
     flex: 1;
-    background-color: lawngreen;
+    background-color: #C3C3C3;
 }
 
 .MainBody {
@@ -64,7 +80,7 @@
     -webkit-flex: 1, 1, 100%;
     flex: 1, 1, 100%;
     height: 65%;
-    background-color: aqua;
+    background-color: #C3C3C3;
 }
 
 .Sidebar {
@@ -72,7 +88,8 @@
     -webkit-flex: 1;
     flex: 1;
     order: 1;
-    background-color: purple;
+    background-color: #C3C3C3;
+    border: 1px solid black;
 }
 
 .Content {
@@ -80,8 +97,10 @@
     -webkit-flex: 5;
     flex: 5;
     order: 2;
-    background-color: blue;
+    background-color:#C3C3C3;
     overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 2em;
 }
 
 .Footer {
@@ -89,7 +108,7 @@
     -webkit-flex: 1, 1, 100%;
     flex: 1, 1, 100%;
     height: 5%;
-    background-color: gray;
+    background-color: #C3C3C3;
 }
 
 @media all and (max-width: 640px) {
@@ -112,7 +131,7 @@
         -webkit-flex: 0;
         flex: 0;
         order: 1;
-        background-color: black;
+        background-color: #C3C3C3;
     }
 }
 

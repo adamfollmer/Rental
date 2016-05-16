@@ -4,17 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Rental2.Components
 {
     public class TenantNav : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync()
-        {
-            var navigationItems = await LoadTenantNavItems();
-            var viewModel = new ViewModel(navigationItems);
-            return View(viewModel);
-        }
+        //public async task<iviewcomponentresult> invokeasync()
+        //{
+        //    var navigationitems = await loadtenantnavitems();
+        //    var viewmodel = new viewmodel(navigationitems);
+        //    return view(viewmodel);
+
+        //}
         public class ViewModel
         {
             public IList<ItemViewModel> NavigationItems { get; }
@@ -33,10 +35,10 @@ namespace Rental2.Components
             public Bill CurrentBill { get; set; }           
             public decimal BalanceRemaining  { get; set; }
 
-            public async Task<IList<ItemViewModel>> LoadTenantNaveItems()
-            {
+            //public async Task<IList<ItemViewModel>> LoadTenantNaveItems()
+            //{
 
-            }
+            //}
 
 
         }

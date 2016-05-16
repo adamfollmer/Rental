@@ -13,8 +13,10 @@ namespace Rental2.Models
         public ApplicationUser()
         {
             RentalHistory = new HashSet<RentalUserConnection>();
-        } 
+        }
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
         [Display(Name = "Forwarding Address")]
         public string ForwardingAddress { get; set; }
