@@ -54,7 +54,7 @@ namespace Rental2.Components
             decimal TotalBill = 0;
             foreach (Bill bill in bills)
             {
-                if (bill.DueDate.DayOfYear > DateTime.Now.DayOfYear)
+                if (bill.DueDate.DayOfYear < DateTime.Now.DayOfYear)
                 {
                     TotalBill += bill.Amount;
                 }
@@ -72,7 +72,6 @@ namespace Rental2.Components
             {
                 NavigationItems = navigationItems;
             }
-
         }
         public class ItemViewModel
         {
@@ -85,5 +84,4 @@ namespace Rental2.Components
             public decimal BalanceRemaining { get; set; }
         }
     }
-
 }
