@@ -30,10 +30,6 @@
         </div>
         <div class="TopCenter"></div>
         <div class="TopRight">
-            @if (User.IsSignedIn())
-            {
-            @Component.Invoke("LandLordNav")
-            }
             <div class="navbar-collapse collapse">
                 @await Html.PartialAsync("_LoginPartial")
             </div>

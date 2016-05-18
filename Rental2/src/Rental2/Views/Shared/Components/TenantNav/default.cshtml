@@ -4,10 +4,10 @@
 {
 <nav>
     <ul>
-        <li>@Model.NavigationItems.CurrentUser.UserName</li>
-        <li>@Model.NavigationItems.UserProperty.Address</li>
-        <li>@Model.NavigationItems.CurrentBill.Amount <br /> @Model.NavigationItems.CurrentBill.DueDate</li>
-        <li>@Model.NavigationItems.BalanceRemaining</li>
+        UserName <li>@Model.NavigationItems.CurrentUser.UserName</li>
+        Address <li>@Model.NavigationItems.UserProperty.Address</li>
+        Current Bill<li>@Model.NavigationItems.CurrentBill.Amount <br /> @Model.NavigationItems.CurrentBill.DueDate</li>
+        Balance Owed<li>@Model.NavigationItems.BalanceRemaining</li>
     </ul>
 </nav>
 }
@@ -15,7 +15,7 @@ else
 {
     <nav>
         <ul>
-            <li>@Model.BaseNavItems.CurrentUser.UserName</li>
+            UserName <li>@Model.BaseNavItems.CurrentUser.UserName</li>
             <li>Thank You for signing up.</li>
             <li>We hope to rent with you soon!</li>
         </ul>

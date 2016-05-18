@@ -12,18 +12,18 @@
             </li>
         </ul>
     </form>
-    @if (User.IsInRole("Tenant")) 
+    @if (User.IsInRole("Tenant"))
     {
+            @Component.Invoke("TenantNav")
     }
     else if (User.IsInRole("Admin"))
     {
-
-
+        @Component.Invoke("LandLordNav")
     }
-    
+
 }
-    else
-    {
+else
+{
     <ul class="nav navbar-nav navbar-right">
         <li><a asp-controller="Account" asp-action="Register">Register</a></li>
         <li><a asp-controller="Account" asp-action="Login">Log in</a></li>
