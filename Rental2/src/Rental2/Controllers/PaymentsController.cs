@@ -34,7 +34,7 @@ namespace Rental2.Controllers
         {
             ViewBag.items = _context.Tenants.ToList();
             var rentalContext = _context.Payments
-                .Include(p => p.ApplicationUserId)
+                .Include(p => p.Tenant)
                 .Include(p => p.Bill);
             return View(rentalContext.ToList());
         }

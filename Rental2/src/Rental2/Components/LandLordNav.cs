@@ -24,19 +24,16 @@ namespace Rental2.Components
         }
         public ICollection<ItemViewModel> LoadTenantNavItems()
         {
-            ICollection<Property> property = (ICollection<Property>)from t in _context.Properties.AsEnumerable()
-                                                                    select t;
-            ICollection<ItemViewModel> userData = null;
+            var property = _context.Properties;
+            List<ItemViewModel> userData = new List<ItemViewModel>();
 
             foreach (Property lot in property)
             {
                 var lotDetail = new ItemViewModel()
                 {
-                    PropertyID = lot.ID,
                     UserProperty = lot,
                     CurrentRental = _context.YearlyRentals.FirstOrDefault(x => x.PropertyID == lot.ID)
                 };
-                lotDetail.YearlyRentalId = lotDetail.CurrentRental.ID;
                 userData.Add(lotDetail);
             }
             return userData;
@@ -83,9 +80,7 @@ namespace Rental2.Components
         }
         public class ItemViewModel
         {
-            public int PropertyID { get; set; }
             public virtual Property UserProperty { get; set; }
-            public int YearlyRentalId { get; set; }
             public virtual YearlyRental CurrentRental { get; set; }
         }
     }
