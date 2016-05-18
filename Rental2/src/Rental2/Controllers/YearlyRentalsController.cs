@@ -24,9 +24,9 @@ namespace Rental2.Controllers
         {
             //ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             //ViewBag.DateSortParm = sortOrder == "tenant" ? "tenant_desc" : "tenant";
-            //var rentalContext = from s in _context.YearlyRentals.
-            //    Include(y => y.Tenants).
-            //    Include(y => y.Property)
+            //var rentalContext = from s in _context.YearlyRentals
+            //                    .Include(y => y.Tenants)
+            //                    .Include(y => y.Property)
             //                    select s;
             //if (!string.IsNullOrEmpty(searchString))
             //{
@@ -77,9 +77,9 @@ namespace Rental2.Controllers
         }
 
         // GET: YearlyRentals/Create
-        public IActionResult Create()
+        public IActionResult Create(string searchString)
         {
-            ViewBag.TenantItems = GetTenantsListItems();
+            ViewBag.TenantItems = _context.Tenants.ToList();
             ViewBag.PropertyItems = GetPropertiesListItems();
             return View();
         }

@@ -41,6 +41,14 @@
     </div>
     <div class="MainBody">
         <div class="Sidebar">
+            <div class="PublicButtons">
+                <h2> Navigation </h2> <br /><br />
+                <a href="home/properties" type="button" class="sidenav btn btn-primary" >Properties</a> <br />
+                <button type="button" class="sidenav btn btn-primary">Contact</button>
+            </div>
+            <div class="LoggedInButtons">
+                @*@await Html.PartialAsync("Whatever")*@
+            </div>
         </div>
         <div class="Content" overflow-y:scroll>@RenderBody()</div>
     </div>
