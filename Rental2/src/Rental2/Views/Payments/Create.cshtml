@@ -4,7 +4,44 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<div class="wrapper">
+    <div class="checkout container">
+        <header>
+
+            <h1>
+                Create <br /> A New Rental Payment
+            </h1>
+            <p>
+                We accept both PayPal and card payments.
+            </p>
+        </header>
+        <form id="payment-form" method="post">
+            <section>
+                <div class="bt-drop-in-wrapper">
+                    <div id="bt-dropin"></div>
+                </div>
+                <div class="input-wrapper amount-wrapper">
+                    <label for="amount">
+                        <span class="input-label">Amount</span>
+                        <input id="amount" name="amount" type="tel" min="1" placeholder="Amount" value="10">
+                    </label>
+                </div>
+            </section>
+
+            <button class="button" type="submit"><span>Test Transaction</span></button>
+        </form>
+    </div>
+</div>
+<script src="https://js.braintreegateway.com/js/braintree-2.23.0.min.js"></script><script>
+    var checkout = new Demo({
+        formID: "payment-form"
+    });
+  var client_token = "@ViewBag.ClientToken";
+  braintree.setup(client_token, "dropin", {
+    container: "bt-dropin"
+  });
+</script>
+@*<h2>Create</h2>
 <form asp-action="Create">
     <div class="form-horizontal">
         <h4>Payment</h4>
@@ -43,7 +80,7 @@
             </div>
         </div>
     </div>
-</form>
+</form>*@
 
 <div>
     <a asp-action="Index">Back to List</a>

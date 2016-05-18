@@ -14,12 +14,6 @@
     </form>
     @if (User.IsInRole("Tenant")) 
     {
-        <p>
-            Next Payment Due: <br />
-            Balance Due: <br />
-            Last Payment <br />
-        </p>
-
     }
     else if (User.IsInRole("Admin"))
     {
