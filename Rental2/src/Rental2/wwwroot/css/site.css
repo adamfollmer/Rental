@@ -10,6 +10,43 @@
     height: 98vh;
     padding: .5em;
 }
+#myCarousel {
+    margin: 0 auto;
+    width: 60%;
+}
+
+.item {
+    display: flex;
+    height: 20vh;
+    align-items: center;
+}
+.img-responsive {
+    width: 80%;
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);
+    position: absolute;  
+    left: 0;  
+    right: 0;  
+    margin: auto;
+    
+}
+.img-responsive-2 {
+    width: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;  
+    right: 0;  
+    margin: auto;
+    
+}
+
+.sidenav {
+    padding: 1em 1em 1em 1em;
+    margin: 1em 1em 1em 1em;
+    width: 80%;
+    
+}
 
 form-control,
 input,
@@ -86,10 +123,12 @@ textarea {
 .Sidebar {
     -ms-flex: 1;
     -webkit-flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     flex: 1;
     order: 1;
     background-color: #C3C3C3;
-    border: 1px solid black;
 }
 
 .Content {

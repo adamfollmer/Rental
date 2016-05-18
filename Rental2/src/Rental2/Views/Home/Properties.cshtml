@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Rental2.Models.Property>
+
+@{
+    ViewBag.Title = "Current Listings";
+}
+
+<h2>Current Listings</h2>
+<div id="map"></div>
+<table class="table">
+    <tr>
+        <th>
+            Address
+        </th>
+        <th>
+            Rent
+        </th>
+        <th>
+            Bedrooms
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*@{
+                    var prod = (List<Property>)ViewData["MyProp"];
+                }*@
+            <td id="address">
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Rent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bedrooms)
+            </td>
+        </tr>
+    }
+
+</table>
+<script>
+    var map = new GMaps({
+        div: '#map',
+        lat: 43.038,
+        lng: -87.9065
+    });
+</script>
+@foreach (var item in Model)
+{
+    <script>
+        GMaps.geocode({
+            address: "@item.Address",
+            callback: function (results, status) {
+                if (status == 'OK') {
+                    var latlng = results[0].geometry.location;
+                    map.addMarker({
+                        lat: latlng.lat(),
+                        lng: latlng.lng(),
+                        title: '@item.Address',
+                        infoWindow: {
+                            content: '<p> Rent: @item.Rent </p>'
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+}

@@ -19,9 +19,14 @@ namespace Rental2.Controllers
         }
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public IActionResult Properties()
+        {
             var properties = db.Properties;
             List<Property> available = new List<Property>();
-            foreach(var item in properties.ToList())
+            foreach (var item in properties.ToList())
             {
                 if (!item.Occupied)
                 {
@@ -31,13 +36,6 @@ namespace Rental2.Controllers
             }
             ViewData["MyProp"] = available;
             return View(available);
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
         }
 
         public IActionResult Contact()
